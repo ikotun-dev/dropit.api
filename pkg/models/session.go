@@ -27,6 +27,11 @@ func (ses *Session) CreateSession() error {
 	}
 	return nil
 }
+func GetSessionByKey(session_key string) (*Session, *gorm.DB) {
+	var session Session
+	db := db.Where("session_key=?", session_key).Find(&session)
+	return &session, db
+}
 
 // delete session
 func DeleteSession(ID int64) Session {
