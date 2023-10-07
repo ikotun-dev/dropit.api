@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/ikotun-dev/clipsync/pkg/helpers"
@@ -26,8 +27,12 @@ func CreateSession(w http.ResponseWriter, r *http.Request) {
 
 	} else {
 		w.WriteHeader(http.StatusBadRequest)
-		res := "session key must be greater than 6 characters"
-		w.Write([]byte(res))
+		res := map[string]string{"error": "session key should not be less than 7 characters"}
+		errorMessage, err := json.Marshal(res)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+		w.Write([]byte(errorMessage))
 
 	}
 }
