@@ -23,7 +23,12 @@ func CreateSession(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		w.WriteHeader(http.StatusCreated)
-		w.Write([]byte("Session created successfully"))
+		res := map[string]string{"message": "Session created successfully"}
+		response, err := json.Marshal(res)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+		w.Write(response)
 
 	} else {
 		w.WriteHeader(http.StatusBadRequest)
