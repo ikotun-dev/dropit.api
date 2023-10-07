@@ -7,7 +7,8 @@ import (
 
 type Text struct {
 	gorm.Model
-	Content string `gorm:""json:"content"`
+	Content   string  `gorm:""json:"content"`
+	SessionID Session `gorm:"foreignkey:SessionID"`
 }
 
 func init() {
@@ -17,15 +18,17 @@ func init() {
 }
 
 // function to create a clip
-func (text *Text) CreateText() *Text {
+func (text *Text) CreateText() error {
 	db.NewRecord(text)
-	db.Create(&text)
-	return text
+	if err := db.Create(&text).Error; err != nil {
+		return err
+	}
+	return nil
 }
 
 // function to delte a clip
-func DeleteText(ID int64) Text {
+func DeleteText(ID int64) error {
 	var text Text
-	db.Where("ID=?", ID).Delete(text)
-	return text
+	return db.Where("ID=?", ID).Delete(text).Error
+
 }
