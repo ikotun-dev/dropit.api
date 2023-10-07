@@ -20,10 +20,12 @@ func init() {
 }
 
 // function to create
-func (ses *Session) CreateSession() *Session {
+func (ses *Session) CreateSession() error {
 	db.NewRecord(ses)
-	db.Create(&ses)
-	return ses
+	if err := db.Create(&ses).Error; err != nil {
+		return err
+	}
+	return nil
 }
 
 // delete session
