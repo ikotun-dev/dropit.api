@@ -29,6 +29,8 @@ func (text *Text) CreateText() error {
 // function to delte a clip
 func DeleteText(ID int64) error {
 	var text Text
-	return db.Where("ID=?", ID).Delete(text).Error
-
+	if err := db.Where("ID=?", ID).Delete(text).Error; err != nil {
+		return err
+	}
+	return nil
 }

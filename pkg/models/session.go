@@ -10,6 +10,7 @@ var db *gorm.DB
 type Session struct {
 	gorm.Model
 	Session_key string `gorm: ""json:"session_key"`
+	Text        []Text `gorm:"foreign:SessionID"`
 }
 
 func init() {
