@@ -37,6 +37,10 @@ func JoinSession(w http.ResponseWriter, r *http.Request) {
 		if ValidateSession(session_key) {
 
 			//fmt.Println("session joined")
+			res := map[string]string{"message": "session joined successfully"}
+			response, _ := json.Marshal(res)
+			w.Write([]byte(response))
+
 			w.WriteHeader(http.StatusOK)
 
 		} else {
