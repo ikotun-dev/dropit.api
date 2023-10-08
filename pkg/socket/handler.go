@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/websocket"
+	"github.com/ikotun-dev/clipsync/pkg/controllers"
 )
 
 var upgrader = websocket.Upgrader{
@@ -18,4 +19,6 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer conn.Close()
+
+	controllers.CreateSession(w, r, conn)
 }
