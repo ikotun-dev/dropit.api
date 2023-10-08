@@ -4,12 +4,15 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/gorilla/websocket"
 	"github.com/ikotun-dev/clipsync/pkg/helpers"
 	"github.com/ikotun-dev/clipsync/pkg/middleware"
 	"github.com/ikotun-dev/clipsync/pkg/models"
 )
 
-func CreateSession(w http.ResponseWriter, r *http.Request) {
+var sessionWebSocketMap = make(map[string]*websocket.Conn)
+
+func CreateSession(w http.ResponseWriter, r *http.Request, conn *websocket.Conn) {
 	w.Header().Set("Content-type", "application/json")
 	//vars := mux.Vars(r)
 	//session_key = vars["session_key"]
@@ -29,7 +32,8 @@ func CreateSession(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-
+		// Store the WebSocket connection associated with the session_key
+		sessionWebSocketMap[SessionToCreate.Session_key] = conn
 		w.WriteHeader(http.StatusCreated)
 		res := map[string]string{"message": "Session created successfully", "token": token}
 		response, err := json.Marshal(res)
