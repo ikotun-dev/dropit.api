@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/ikotun-dev/clipsync/pkg/helpers"
+	"github.com/ikotun-dev/clipsync/pkg/middleware"
 	"github.com/ikotun-dev/clipsync/pkg/models"
 )
 
@@ -22,12 +23,21 @@ func CreateSession(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
+		// Generate a JWT token with the session key
+		token, err := middleware.CreateJWT(SessionToCreate.Session_key)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
 		w.WriteHeader(http.StatusCreated)
-		res := map[string]string{"message": "Session created successfully"}
+		res := map[string]string{"message": "Session created successfully", "token": token}
 		response, err := json.Marshal(res)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
+
+		w.Header().Set("Authorization", "Bearer "+token)
 		w.Write(response)
 
 	} else {
