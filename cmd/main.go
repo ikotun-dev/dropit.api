@@ -15,7 +15,7 @@ func main() {
 	r := mux.NewRouter()
 	r.Use(middleware.LogRequest)
 	router.RoutingRoutes(r)
-	r.HandleFunc("/ws", controllers.CreateSession)
+	r.HandleFunc("/ws", controllers.SocketEndpoint)
 	http.Handle("/", r)
 	log.Fatal(http.ListenAndServe("localhost:8000", r))
 
