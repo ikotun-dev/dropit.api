@@ -7,5 +7,5 @@ import (
 
 var RoutingRoutes = func(router *mux.Router) {
 	router.HandleFunc("/session/new", controllers.CreateSession).Methods("POST")
-	router.HandleFunc("/session/join", controllers.JoinSession).Methods("POST")
+	router.HandleFunc("/session/ws", controllers.newSession).Methods("POST")
 }

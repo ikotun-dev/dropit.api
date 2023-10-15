@@ -13,6 +13,7 @@ func CreateSession(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
 	//vars := mux.Vars(r)
 	//session_key = vars["session_key"]
+
 	SessionToCreate := &models.Session{}
 	helpers.ParseBody(r, SessionToCreate)
 
