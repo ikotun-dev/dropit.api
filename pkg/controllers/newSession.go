@@ -67,7 +67,8 @@ func SocketEndpoint(w http.ResponseWriter, r *http.Request) {
 	rooms[key][ws] = struct{}{}
 	roomsMtx.Unlock()
 
-	log.Println("Client connected to socket room:", key)
+	//returns socket number and user
+	log.Println("Client connected to socket room  --> : ", key)
 
 	reader(ws, key)
 }
