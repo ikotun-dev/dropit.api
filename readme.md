@@ -1,5 +1,5 @@
 # clipsync
- snychrozied real-time text sharing
+  real-time text sharing across devices
 
 ## Features
 
