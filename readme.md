@@ -1,4 +1,4 @@
-# clipsync
+# dropit
   real-time text sharing across devices
 
 ## Features
