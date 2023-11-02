@@ -2,9 +2,11 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/ikotun-dev/clipsync/pkg/helpers"
+	"github.com/ikotun-dev/clipsync/pkg/middleware"
 	"github.com/ikotun-dev/clipsync/pkg/models"
 )
 
@@ -15,30 +17,18 @@ func CreateSession(w http.ResponseWriter, r *http.Request) {
 
 	SessionToCreate := &models.Session{}
 	helpers.ParseBody(r, SessionToCreate)
-
+	//fmt.Print(r)
 	//if the session key is less than 7 characters
-	if len(SessionToCreate.Session_key) < 7 {
-		w.WriteHeader(http.StatusCreated)
-		res := map[string]string{"message": "check success"}
-		response, err := json.Marshal(res)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-		}
-		w.Write(response)
-	} else {
-		res := map[string]string{"error": "session key should not be less than 7 characters"}
-		errorMessage, err := json.Marshal(res)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-		}
-		w.Write([]byte(errorMessage))
-	}
-	/* if len(SessionToCreate.Session_key) < 7 {
+	if len(SessionToCreate.Session_key) < 6 {
 		err := SessionToCreate.CreateSession()
 		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
+			fmt.Println(err)
 			return
 		}
+
+		// Print the session ID.
+		fmt.Println(SessionToCreate.Session_key)
+
 		// Generate a JWT token with the session key
 		token, err := middleware.CreateJWT(SessionToCreate.Session_key)
 		if err != nil {
@@ -66,6 +56,5 @@ func CreateSession(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(errorMessage))
 
 	}
-	*/
 
 }

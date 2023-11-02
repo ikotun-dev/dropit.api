@@ -46,8 +46,7 @@ func reader(conn *websocket.Conn, key string) {
 		}
 		roomsMtx.Unlock()
 	}
-}
-
+} //idk
 func SocketEndpoint(w http.ResponseWriter, r *http.Request) {
 	// Get the session key from the query string
 	key := r.URL.Query().Get("session_key")
