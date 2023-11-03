@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/ikotun-dev/clipsync/pkg/helpers"
 	"github.com/ikotun-dev/clipsync/pkg/middleware"
 	"github.com/ikotun-dev/clipsync/pkg/models"
@@ -12,7 +13,7 @@ import (
 
 func CreateSession(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
-	//vars := mux.Vars(r)
+	vars := mux.Vars(r)
 	//session_key = vars["session_key"]
 
 	SessionToCreate := &models.Session{}
